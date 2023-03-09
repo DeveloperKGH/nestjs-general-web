@@ -12,13 +12,18 @@ export class MemberService {
 
   @Transactional()
   async signUp(memberServiceDto: MemberServiceDto): Promise<MemberServiceDto> {
-    const member = memberServiceDto.toEntity();
+    if (await this.checkLoginIdDuplication(memberServiceDto.loginId))
+      throw new HttpException('Duplicated LoginId', HttpStatus.CONFLICT);
 
-    if (await this.memberRepository.existByLoginId(member.loginId))
-      throw new HttpException('duplicated loginId', HttpStatus.CONFLICT);
+    const member = memberServiceDto.toEntity();
+    await member.setHashedPassword(memberServiceDto.password);
 
     await this.memberRepository.save(member);
 
     return MemberServiceDto.fromEntity(member);
+  }
+
+  public async checkLoginIdDuplication(loginId: string): Promise<boolean> {
+    return await this.memberRepository.existByLoginId(loginId);
   }
 }

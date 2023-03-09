@@ -5,9 +5,9 @@ export const TypeOrmConfig: TypeOrmModuleOptions = {
   host: 'localhost',
   port: 3306,
   username: 'root',
-  password: '1234',
-  database: 'nestjs_study',
+  password: 'password',
+  database: 'sample',
   entities: [__dirname + '/../../**/*.entity.{js,ts}'],
   logging: true,
-  timezone: 'UTC',
+  timezone: '+00:00',
 };

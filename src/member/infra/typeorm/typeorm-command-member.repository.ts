@@ -9,6 +9,6 @@ export class TypeormCommandMemberRepository
   implements ICommandMemberRepository
 {
   async existByLoginId(loginId: string): Promise<boolean> {
-    return (await this.count({ loginId })) > 0;
+    return (await this.count({ where: { loginId } })) > 0;
   }
 }

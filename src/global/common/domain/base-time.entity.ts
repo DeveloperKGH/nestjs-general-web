@@ -1,12 +1,6 @@
 import { BeforeInsert, BeforeUpdate, Column } from 'typeorm';
 
-export abstract class BaseEntity {
-  @Column({ name: 'created_by' })
-  createdBy: number;
-
-  @Column({ name: 'updated_by' })
-  updatedBy: number;
-
+export abstract class BaseTimeEntity {
   @Column({ name: 'created_at' })
   createdAt: Date;
 

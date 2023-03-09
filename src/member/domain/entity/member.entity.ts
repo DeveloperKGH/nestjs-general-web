@@ -1,20 +1,24 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { BaseEntity } from '../../../global/common/domain/base.entity';
+import { BaseTimeEntity } from '../../../global/common/domain/base-time.entity';
+import EncryptionUtil from '../../../global/util/encryption.util';
 
 @Entity()
-export class Member extends BaseEntity {
+export class Member extends BaseTimeEntity {
+  constructor(loginId: string) {
+    super();
+    this.loginId = loginId;
+  }
+
   @PrimaryGeneratedColumn('increment')
-  id: number;
+  private id: number;
 
   @Column({ name: 'login_id' })
-  loginId: string;
+  private loginId!: string;
 
   @Column({ name: 'password' })
-  password: string;
+  private password!: string;
 
-  @Column({ name: 'nickname' })
-  nickname: string;
-
-  @Column({ name: 'is_active' })
-  isActive: boolean;
+  public async setHashedPassword(password: string) {
+    this.password = await EncryptionUtil.hash(password);
+  }
 }

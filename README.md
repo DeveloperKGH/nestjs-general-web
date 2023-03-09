@@ -11,8 +11,18 @@ NestJS 기반 General Web Service
 </p>
 
 ---
-## Running the app
+## Setting the project
 
+```bash
+# @nestjs/cli setting
+$ npm i -g @nestjs/cli
+
+# Nest 프로젝트 생성
+$ nest new project_name
+
+```
+
+## Running the app
 ```bash
 # package.json
 $ yarn install
