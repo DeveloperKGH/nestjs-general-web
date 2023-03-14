@@ -12,10 +12,10 @@ export class Member extends BaseTimeEntity {
   @PrimaryGeneratedColumn('increment')
   private id: number;
 
-  @Column({ name: 'login_id' })
+  @Column()
   private loginId!: string;
 
-  @Column({ name: 'password' })
+  @Column()
   private password!: string;
 
   public async setHashedPassword(password: string) {

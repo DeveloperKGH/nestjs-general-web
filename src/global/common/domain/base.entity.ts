@@ -1,16 +1,22 @@
-import { BeforeInsert, BeforeUpdate, Column } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export abstract class BaseEntity {
-  @Column({ name: 'created_by' })
+  @Column()
   createdBy: number;
 
-  @Column({ name: 'updated_by' })
+  @Column()
   updatedBy: number;
 
-  @Column({ name: 'created_at' })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column({ name: 'updated_at' })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @BeforeInsert()
