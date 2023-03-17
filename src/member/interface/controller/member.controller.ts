@@ -11,27 +11,18 @@ import { IReadMemberRepository } from '../../domain/repository/read/read-member.
 export class MemberController {
   constructor(
     private readonly memberService: MemberService,
-
     @Inject('IReadMemberRepository')
     private readonly readMemberRepository: IReadMemberRepository,
   ) {}
 
   @Post('/sign-up')
-  async signUp(
-    @Body() request: SignupMemberRequestDto,
-  ): Promise<BaseResponse<MemberResponseDto>> {
+  async signUp(@Body() request: SignupMemberRequestDto): Promise<BaseResponse<MemberResponseDto>> {
     const result = await this.memberService.signUp(request.toServiceDto());
-    return BaseResponse.successBaseResponse(
-      MemberResponseDto.fromServiceDto(result),
-    );
+    return BaseResponse.successBaseResponse(MemberResponseDto.fromServiceDto(result));
   }
 
   @Get('/members')
-  async getMembers(
-    @Query() param: SearchMemberRequestDto,
-  ): Promise<BaseResponse<MemberResponseDto[]>> {
-    return BaseResponse.successBaseResponse(
-      await this.readMemberRepository.getMembers(param),
-    );
+  async getMembers(@Query() param: SearchMemberRequestDto): Promise<BaseResponse<MemberResponseDto[]>> {
+    return BaseResponse.successBaseResponse(await this.readMemberRepository.getMembers(param));
   }
 }

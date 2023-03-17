@@ -11,9 +11,7 @@ export class MemberResponseDto {
 
   updatedAt: Date;
 
-  public static fromServiceDto(
-    serviceDto: MemberServiceDto,
-  ): MemberResponseDto {
+  public static fromServiceDto(serviceDto: MemberServiceDto): MemberResponseDto {
     const responseDto = new MemberResponseDto();
     responseDto.id = serviceDto.id;
     responseDto.loginId = serviceDto.loginId;

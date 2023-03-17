@@ -11,14 +11,12 @@ import { TypeormReadMemberRepository } from './infra/typeorm/read/typeorm-read-m
     MemberService,
     {
       provide: 'ICommandMemberRepository',
-      useFactory: (connection) =>
-        connection.getCustomRepository(TypeormCommandMemberRepository),
+      useFactory: (connection) => connection.getCustomRepository(TypeormCommandMemberRepository),
       inject: [Connection],
     },
     {
       provide: 'IReadMemberRepository',
-      useFactory: (connection) =>
-        connection.getCustomRepository(TypeormReadMemberRepository),
+      useFactory: (connection) => connection.getCustomRepository(TypeormReadMemberRepository),
       inject: [Connection],
     },
   ],

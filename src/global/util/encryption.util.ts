@@ -16,10 +16,7 @@ export default class EncryptionUtil {
    * @param password
    * @param hashedPassword
    */
-  static async match(
-    password: string,
-    hashedPassword: string,
-  ): Promise<boolean> {
+  static async match(password: string, hashedPassword: string): Promise<boolean> {
     return await bcrypt.compare(password, hashedPassword);
   }
 }

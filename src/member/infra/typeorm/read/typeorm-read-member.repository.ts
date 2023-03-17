@@ -8,10 +8,7 @@ import { Page } from '../../../../global/common/dto/page';
 import { MemberServiceDto } from '../../../application/dto/member.service.dto';
 
 @EntityRepository(Member)
-export class TypeormReadMemberRepository
-  extends BaseRepository<Member>
-  implements IReadMemberRepository
-{
+export class TypeormReadMemberRepository extends BaseRepository<Member> implements IReadMemberRepository {
   async getMembers(param: SearchMemberRequestDto): Promise<any | null> {
     const queryBuilder = this.createQueryBuilder('member')
       .select('member.id', 'id')
@@ -26,9 +23,7 @@ export class TypeormReadMemberRepository
       const totalCount = await queryBuilder.disableEscaping().getCount();
       queryBuilder.offset(param.getOffset());
       queryBuilder.limit(param.getLimit());
-      const results = await queryBuilder
-        .disableEscaping()
-        .getRawMany<MemberServiceDto>();
+      const results = await queryBuilder.disableEscaping().getRawMany<MemberServiceDto>();
 
       return new Page<MemberResponseDto>(
         totalCount,
@@ -38,9 +33,7 @@ export class TypeormReadMemberRepository
       );
     }
 
-    const results = await queryBuilder
-      .disableEscaping()
-      .getRawMany<MemberServiceDto>();
+    const results = await queryBuilder.disableEscaping().getRawMany<MemberServiceDto>();
     return results.map((r) => MemberResponseDto.fromServiceDto(r));
   }
 }
