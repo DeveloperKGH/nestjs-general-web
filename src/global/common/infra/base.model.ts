@@ -1,6 +1,6 @@
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-export abstract class BaseEntity {
+export abstract class BaseModel {
   @Column()
   createdBy: number;
 

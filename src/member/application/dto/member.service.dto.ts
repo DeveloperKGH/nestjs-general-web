@@ -1,5 +1,5 @@
-import { Member } from '../../domain/entity/member.entity';
 import { plainToClass } from 'class-transformer';
+import { Member } from '../../domain/entity/member';
 
 export class MemberServiceDto {
   id: number;

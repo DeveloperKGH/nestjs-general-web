@@ -1,6 +1,6 @@
 import { BeforeInsert, BeforeUpdate, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-export abstract class BaseTimeEntity {
+export abstract class BaseTimeModel {
   @CreateDateColumn()
   createdAt: Date;
 
