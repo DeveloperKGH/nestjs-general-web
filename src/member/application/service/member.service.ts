@@ -1,7 +1,8 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { MemberServiceDto } from '../dto/member.service.dto';
 import { ICommandMemberRepository } from '../../domain/repository/command-member.repository';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
+import { Member } from '../../domain/entity/member';
 
 @Injectable()
 export class MemberService {
@@ -12,18 +13,7 @@ export class MemberService {
 
   @Transactional()
   async signUp(memberServiceDto: MemberServiceDto): Promise<MemberServiceDto> {
-    if (await this.checkLoginIdDuplication(memberServiceDto.loginId))
-      throw new HttpException('Duplicated LoginId', HttpStatus.CONFLICT);
-
-    const member = memberServiceDto.toEntity();
-    await member.setHashedPassword(memberServiceDto.password);
-
-    await this.memberRepository.save(member);
-
+    const member = await Member.signUp(memberServiceDto.loginId, memberServiceDto.password, this.memberRepository);
     return MemberServiceDto.fromEntity(member);
-  }
-
-  public async checkLoginIdDuplication(loginId: string): Promise<boolean> {
-    return await this.memberRepository.existByLoginId(loginId);
   }
 }

@@ -1,5 +1,6 @@
 import { plainToClass } from 'class-transformer';
 import { Member } from '../../domain/entity/member';
+import { MemberRole } from '../../domain/enum/member.role';
 
 export class MemberServiceDto {
   id: number;
@@ -8,17 +9,13 @@ export class MemberServiceDto {
 
   password: string;
 
-  nickname: string;
+  role: MemberRole;
 
   createdAt: Date;
 
   updatedAt: Date;
 
   isActive: boolean;
-
-  public toEntity(): Member {
-    return new Member(this.loginId);
-  }
 
   public static fromEntity(member: Member): MemberServiceDto {
     return plainToClass(MemberServiceDto, member);
