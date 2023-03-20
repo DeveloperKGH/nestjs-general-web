@@ -1,15 +1,17 @@
 export class Page<T> {
-  pageSize: number;
-  totalCounts: number;
-  pageNumber: number;
+  size: number;
+  totalElements: number;
+  numberOfElements: number;
+  page: number;
   totalPages: number;
   items: T[];
 
-  constructor(totalCount: number, pageSize: number, pageNumber: number, items: T[]) {
-    this.totalCounts = totalCount;
-    this.pageSize = pageSize;
-    this.pageNumber = pageNumber;
-    this.totalPages = Math.ceil(totalCount / pageSize);
+  constructor(totalElements: number, numberOfElements: number, size: number, page: number, items: T[]) {
+    this.totalElements = totalElements;
+    this.numberOfElements = numberOfElements;
+    this.size = size;
+    this.page = page;
+    this.totalPages = Math.ceil(totalElements / size);
     this.items = items;
   }
 }

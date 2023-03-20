@@ -13,12 +13,12 @@ export class MemberResponseDto {
   updatedAt: Date;
 
   public static fromServiceDto(serviceDto: MemberServiceDto): MemberResponseDto {
-    const responseDto = new MemberResponseDto();
-    responseDto.id = serviceDto.id;
-    responseDto.loginId = serviceDto.loginId;
-    responseDto.createdAt = serviceDto.createdAt;
-    responseDto.updatedAt = serviceDto.updatedAt;
-    responseDto.role = serviceDto.role.toCodeName();
-    return responseDto;
+    const response = new MemberResponseDto();
+    response.id = serviceDto.id;
+    response.loginId = serviceDto.loginId;
+    response.createdAt = serviceDto.createdAt;
+    response.updatedAt = serviceDto.updatedAt;
+    response.role = serviceDto.role.toCodeName();
+    return response;
   }
 }

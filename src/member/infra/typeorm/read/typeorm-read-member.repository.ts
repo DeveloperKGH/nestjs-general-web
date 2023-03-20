@@ -5,33 +5,35 @@ import { MemberResponseDto } from '../../../interface/dto/member.response.dto';
 import { BaseRepository } from 'typeorm-transactional-cls-hooked';
 import { SearchMemberRequestDto } from '../../../interface/dto/search-member.request.dto';
 import { Page } from '../../../../global/common/dto/page';
-import { MemberServiceDto } from '../../../application/dto/member.service.dto';
 
 @EntityRepository(MemberModel)
 export class TypeormReadMemberRepository extends BaseRepository<MemberModel> implements IReadMemberRepository {
   async getMembers(param: SearchMemberRequestDto): Promise<any | null> {
-    const queryBuilder = this.createQueryBuilder('member')
-      .select('member.id', 'id')
-      .addSelect('member.login_id', 'loginId')
-      .addSelect('member.password', 'password')
-      .addSelect('member.created_at', 'createdAt')
-      .addSelect('member.updated_at', 'updatedAt');
+    const queryBuilder = this.createQueryBuilder('member').select([
+      'member.id',
+      'member.loginId',
+      'member.password',
+      'member.role',
+      'member.status',
+      'member.createdAt',
+      'member.updatedAt',
+    ]);
 
-    if (param.pageNumber && param.pageSize) {
-      const totalCount = await queryBuilder.disableEscaping().getCount();
+    if (param.page && param.size) {
       queryBuilder.offset(param.getOffset());
       queryBuilder.limit(param.getLimit());
-      const results = await queryBuilder.disableEscaping().getRawMany<MemberServiceDto>();
+      const results = await queryBuilder.disableEscaping().getManyAndCount();
 
       return new Page<MemberResponseDto>(
-        totalCount,
-        param.pageSize,
-        param.pageNumber,
-        results.map((r) => MemberResponseDto.fromServiceDto(r)),
+        results[1],
+        results[0].length,
+        param.size,
+        param.page,
+        results[0].map((r) => MemberResponseDto.fromServiceDto(r.toServiceDto())),
       );
     }
 
-    const results = await queryBuilder.disableEscaping().getRawMany<MemberServiceDto>();
-    return results.map((r) => MemberResponseDto.fromServiceDto(r));
+    const results = await queryBuilder.disableEscaping().getMany();
+    return results.map((r) => MemberResponseDto.fromServiceDto(r.toServiceDto()));
   }
 }

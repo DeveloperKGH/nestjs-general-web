@@ -2,6 +2,7 @@ import EncryptionUtil from '../../../global/util/encryption.util';
 import { MemberRole } from '../enum/member.role';
 import { ICommandMemberRepository } from '../repository/command-member.repository';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { MemberStatus } from '../enum/member.status';
 
 export class Member {
   id: number;
@@ -12,6 +13,8 @@ export class Member {
 
   role: MemberRole;
 
+  status: MemberStatus;
+
   public static async signUp(loginId: string, password: string, repository: ICommandMemberRepository): Promise<Member> {
     if (await this.checkLoginIdDuplication(loginId, repository))
       throw new HttpException('Duplicated LoginId', HttpStatus.CONFLICT);
@@ -20,6 +23,7 @@ export class Member {
     member.loginId = loginId;
     member.password = await EncryptionUtil.hash(password);
     member.role = MemberRole.MEMBER;
+    member.status = MemberStatus.ACTIVE;
 
     return await repository.save(member);
   }

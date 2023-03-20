@@ -15,8 +15,6 @@ export class MemberServiceDto {
 
   updatedAt: Date;
 
-  isActive: boolean;
-
   public static fromEntity(member: Member): MemberServiceDto {
     return plainToClass(MemberServiceDto, member);
   }

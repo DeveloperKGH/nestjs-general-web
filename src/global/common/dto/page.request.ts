@@ -2,16 +2,16 @@ import { IsOptional } from 'class-validator';
 
 export abstract class PageRequest {
   @IsOptional()
-  pageNumber?: number;
+  page?: number;
 
   @IsOptional()
-  pageSize?: number;
+  size?: number;
 
   getOffset(): number {
-    return (this.pageNumber - 1) * this.pageSize;
+    return (this.page - 1) * this.size;
   }
 
   getLimit(): number {
-    return this.pageSize;
+    return this.size;
   }
 }
