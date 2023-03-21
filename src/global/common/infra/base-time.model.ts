@@ -1,20 +1,22 @@
-import { BeforeInsert, BeforeUpdate, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column } from 'typeorm';
+import { LocalDateTime } from '@js-joda/core';
+import { LocalDateTimeTransformer } from '../../util/transformer/local-date-time.transformer';
 
 export abstract class BaseTimeModel {
-  @CreateDateColumn()
-  createdAt: Date;
+  @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer() })
+  createdAt: LocalDateTime;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer() })
+  updatedAt: LocalDateTime;
 
   @BeforeInsert()
   protected beforeInsert() {
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
+    this.createdAt = LocalDateTime.now();
+    this.updatedAt = LocalDateTime.now();
   }
 
   @BeforeUpdate()
   protected beforeUpdate() {
-    this.updatedAt = new Date();
+    this.updatedAt = LocalDateTime.now();
   }
 }

@@ -3,6 +3,7 @@ import { MemberRole } from '../enum/member.role';
 import { ICommandMemberRepository } from '../repository/command-member.repository';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { MemberStatus } from '../enum/member.status';
+import { LocalDateTime } from '@js-joda/core';
 
 export class Member {
   id: number;
@@ -14,6 +15,10 @@ export class Member {
   role: MemberRole;
 
   status: MemberStatus;
+
+  createdAt: LocalDateTime;
+
+  updatedAt: LocalDateTime;
 
   public static async signUp(loginId: string, password: string, repository: ICommandMemberRepository): Promise<Member> {
     if (await this.checkLoginIdDuplication(loginId, repository))

@@ -1,6 +1,6 @@
-import { plainToClass } from 'class-transformer';
 import { Member } from '../../domain/entity/member';
 import { MemberRole } from '../../domain/enum/member.role';
+import { LocalDateTime } from '@js-joda/core';
 
 export class MemberServiceDto {
   id: number;
@@ -11,11 +11,18 @@ export class MemberServiceDto {
 
   role: MemberRole;
 
-  createdAt: Date;
+  createdAt: LocalDateTime;
 
-  updatedAt: Date;
+  updatedAt: LocalDateTime;
 
   public static fromEntity(member: Member): MemberServiceDto {
-    return plainToClass(MemberServiceDto, member);
+    const serviceDto = new MemberServiceDto();
+    serviceDto.id = member.id;
+    serviceDto.loginId = member.loginId;
+    serviceDto.password = member.password;
+    serviceDto.role = member.role;
+    serviceDto.createdAt = member.createdAt;
+    serviceDto.updatedAt = member.updatedAt;
+    return serviceDto;
   }
 }

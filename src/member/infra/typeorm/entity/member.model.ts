@@ -1,7 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseTimeModel } from '../../../../global/common/infra/base-time.model';
 import { Member } from '../../../domain/entity/member';
-import { plainToClass } from 'class-transformer';
 import { MemberRoleTransformer } from '../../../domain/enum/transformer/member.role.transformer';
 import { MemberRole } from '../../../domain/enum/member.role';
 import { MemberStatus } from '../../../domain/enum/member.status';
@@ -38,10 +37,25 @@ export class MemberModel extends BaseTimeModel {
   }
 
   public toEntity(): Member {
-    return plainToClass(Member, this);
+    const entity = new Member();
+    entity.id = this.id;
+    entity.loginId = this.loginId;
+    entity.password = this.password;
+    entity.role = this.role;
+    entity.status = this.status;
+    entity.createdAt = this.createdAt;
+    entity.updatedAt = this.updatedAt;
+    return entity;
   }
 
   public toServiceDto(): MemberServiceDto {
-    return plainToClass(MemberServiceDto, this);
+    const serviceDto = new MemberServiceDto();
+    serviceDto.id = this.id;
+    serviceDto.loginId = this.loginId;
+    serviceDto.password = this.password;
+    serviceDto.role = this.role;
+    serviceDto.createdAt = this.createdAt;
+    serviceDto.updatedAt = this.updatedAt;
+    return serviceDto;
   }
 }
