@@ -1,9 +1,12 @@
 import EncryptionUtil from '../../../global/util/encryption.util';
-import { MemberRole } from '../enum/member.role';
+import { EMemberRole } from '../enum/member.role';
 import { ICommandMemberRepository } from '../repository/command-member.repository';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { MemberStatus } from '../enum/member.status';
+import { EMemberStatus } from '../enum/member.status';
 import { LocalDateTime } from '@js-joda/core';
+import { MemberAuthorities } from './member-authorities';
+import { MemberAuthority } from './member-authority';
+import { EMemberAuthority } from '../enum/member.authority';
 
 export class Member {
   id: number;
@@ -12,28 +15,41 @@ export class Member {
 
   password!: string;
 
-  role: MemberRole;
+  role: EMemberRole;
 
-  status: MemberStatus;
+  status: EMemberStatus;
+
+  authorities: MemberAuthorities = new MemberAuthorities();
 
   createdAt: LocalDateTime;
 
   updatedAt: LocalDateTime;
 
-  public static async signUp(loginId: string, password: string, repository: ICommandMemberRepository): Promise<Member> {
+  public static async signUpMember(
+    loginId: string,
+    password: string,
+    repository: ICommandMemberRepository,
+  ): Promise<Member> {
     if (await this.checkLoginIdDuplication(loginId, repository))
       throw new HttpException('Duplicated LoginId', HttpStatus.CONFLICT);
 
     const member = new Member();
     member.loginId = loginId;
     member.password = await EncryptionUtil.hash(password);
-    member.role = MemberRole.MEMBER;
-    member.status = MemberStatus.ACTIVE;
+    member.role = EMemberRole.MEMBER;
+    member.status = EMemberStatus.ACTIVE;
+    member.addAuthoritiesForMember();
 
     return await repository.save(member);
   }
 
   public static async checkLoginIdDuplication(loginId: string, repository: ICommandMemberRepository): Promise<boolean> {
     return await repository.existByLoginId(loginId);
+  }
+
+  public addAuthoritiesForMember() {
+    const authority = new MemberAuthority();
+    authority.authority = EMemberAuthority.VIEW_MY_INFO;
+    this.authorities.add(authority);
   }
 }

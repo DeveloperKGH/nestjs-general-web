@@ -1,5 +1,5 @@
 import { Member } from '../../domain/entity/member';
-import { MemberRole } from '../../domain/enum/member.role';
+import { EMemberRole } from '../../domain/enum/member.role';
 import { LocalDateTime } from '@js-joda/core';
 
 export class MemberServiceDto {
@@ -9,7 +9,7 @@ export class MemberServiceDto {
 
   password: string;
 
-  role: MemberRole;
+  role: EMemberRole;
 
   createdAt: LocalDateTime;
 

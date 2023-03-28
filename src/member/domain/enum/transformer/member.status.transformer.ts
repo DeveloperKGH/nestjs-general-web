@@ -1,8 +1,8 @@
 import { ValueTransformer } from 'typeorm';
-import { MemberStatus } from '../member.status';
+import { EMemberStatus } from '../member.status';
 
 export class MemberStatusTransformer implements ValueTransformer {
-  to(entityValue: MemberStatus): string {
+  to(entityValue: EMemberStatus): string {
     if (!entityValue) {
       return null;
     }
@@ -10,11 +10,11 @@ export class MemberStatusTransformer implements ValueTransformer {
     return entityValue.enumName;
   }
 
-  from(databaseValue: string): MemberStatus {
+  from(databaseValue: string): EMemberStatus {
     if (!databaseValue) {
       return null;
     }
 
-    return MemberStatus.valueByName(databaseValue);
+    return EMemberStatus.valueByName(databaseValue);
   }
 }

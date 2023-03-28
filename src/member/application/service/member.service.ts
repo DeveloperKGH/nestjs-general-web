@@ -13,7 +13,11 @@ export class MemberService {
 
   @Transactional()
   async signUp(memberServiceDto: MemberServiceDto): Promise<MemberServiceDto> {
-    const member = await Member.signUp(memberServiceDto.loginId, memberServiceDto.password, this.memberRepository);
+    const member = await Member.signUpMember(
+      memberServiceDto.loginId,
+      memberServiceDto.password,
+      this.memberRepository,
+    );
     return MemberServiceDto.fromEntity(member);
   }
 }
